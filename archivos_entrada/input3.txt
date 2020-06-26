@@ -1,0 +1,13 @@
+import {asd, bfs} from 'jiji';
+import Componente from 'jiji';
+function Otro(props){
+    return(
+        <h1 primeraProp={minumero}>
+          <Componente propDePrueba={b} />
+        </h1>
+    );
+};
+Otro.propTypes = {
+  name3: PropTypes.number,
+  otro3: PropTypes.func
+};

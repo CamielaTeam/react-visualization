@@ -1,0 +1,17 @@
+import {asd, bfs} from 'jiji';
+import Componente from 'jiji';
+import Otro from 'otro';
+function Componente2(props){
+    return(
+        <h1 primeraProp={minumero}>
+          <Componente segundaProp={miNumero}>
+            <Otro>
+            </Otro>
+          </Componente>
+        </h1>
+    );
+};
+Componente2.propTypes = {
+  name1: PropTypes.number,
+  otro2: PropTypes.func
+};
