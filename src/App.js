@@ -1,32 +1,71 @@
-import React from "react";
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
 // import Landing from "./Graph/Landing";
-import Graph from "./Graph/Graph";
+import ForceGraph from "./Graph/ForceGraph";
+import data from "./forcegraph-data.json";
+
 export default function App() {
   const propsMatrix = [
     [null, { name: "Componente2", props: ["primeraProp"] }, null],
-    [
-      { name: "Componente", props: ["segundaProp"] },
-      null,
-      { name: "Otro", props: [] },
-    ],
+    [null, null, null],
     [{ name: "Componente", props: ["propDePrueba"] }, null, null],
   ];
+  const nodes = [
+    {
+      name: "Componente",
+      componentsInside: { Componente2: { passedProps: ["primeraProp"] } },
+      mustReceiveProps: [
+        { name: "name", type: "number" },
+        { name: "otro", type: "func" },
+      ],
+      index: 0,
+    },
+    {
+      name: "Componente2",
+      componentsInside: {},
+      mustReceiveProps: [
+        { name: "name1", type: "number" },
+        { name: "otro2", type: "func" },
+      ],
+      index: 1,
+    },
+    {
+      name: "Otro",
+      componentsInside: { Componente: { passedProps: ["propDePrueba"] } },
+      mustReceiveProps: [
+        { name: "name3", type: "number" },
+        { name: "otro3", type: "func" },
+      ],
+      index: 2,
+    },
+  ];
+  const transformMatrixToLink = (matrix, nodes) => {
+    const links = [];
+
+    for (var i = 0; i < matrix.length; i++) {
+      for (var z = 0; z < matrix.length; z++) {
+        if (matrix[i][z]) {
+          links.push({ source: nodes[i].name, target: nodes[z].name });
+        }
+      }
+    }
+    return links;
+  };
+  const [links, setLinks] = useState(transformMatrixToLink(propsMatrix, nodes));
+
+  const nodeHoverTooltip = React.useCallback((node) => {
+    return `<div>${node.name}</div>`;
+  }, []);
+
   return (
     <div className="App">
-      <Graph
-        width="100%"
-        nodes={[
-          { id: 1, name: "node 1", dependsOn: [] },
-          { id: 7, name: "node 7", dependsOn: [] },
-          { id: 2, name: "node 2", dependsOn: [1] },
-          { id: 3, name: "node 3", dependsOn: [2] },
-          { id: 4, name: "node 4", dependsOn: [2] },
-          { id: 5, name: "node 5", dependsOn: [4, 7] },
-          { id: 6, name: "node 6", dependsOn: [5] },
-        ]}
-      ></Graph>
+      <section className="Main">
+        <ForceGraph
+          linksData={links}
+          nodesData={nodes}
+          nodeHoverTooltip={nodeHoverTooltip}
+        />
+      </section>
     </div>
   );
 }
