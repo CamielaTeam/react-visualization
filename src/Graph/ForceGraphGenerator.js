@@ -8,7 +8,7 @@ export function runForceGraph(
   nodesData,
   nodeHoverTooltip
 ) {
-  const colors = d3.scaleOrdinal(d3.schemeCategory10);
+  const colors = d3.scaleOrdinal(d3.schemeCategory10).domain(["foo", "baz"]);
 
   const links = linksData.map((d) => Object.assign({}, d));
   const nodes = nodesData.map((d) => Object.assign({}, d));
@@ -53,11 +53,15 @@ export function runForceGraph(
   const div = d3.select("#graph-tooltip");
 
   const addTooltip = (hoverTooltip, d, x, y) => {
-    div.transition().duration(200).style("opacity", 0.9);
+    console.log(hoverTooltip);
+    div.transition().duration(200).style("opacity", 1);
     div
       .html(hoverTooltip(d))
       .style("left", `${x}px`)
-      .style("top", `${y - 28}px`);
+      .style("top", `${y - 28}px`)
+      .style("background-color", "#4B4B4B")
+      .style("border", "2px solid color #59A925")
+      .style("width", "auto");
   };
 
   const removeTooltip = () => {
@@ -67,27 +71,54 @@ export function runForceGraph(
   const svg = d3
     .select(container)
     .append("svg")
-    .attr("viewBox", [-width / 2, -height / 2, width, height])
-    .call(
-      d3.zoom().on("zoom", function () {
-        svg.attr("transform", d3.event.transform);
-      })
-    );
-  svg
-    .append("defs")
+    .attr("viewBox", [-width / 2, -height / 2, width, height]);
+
+  var defs = svg.append("defs");
+  defs
     .append("marker")
     .attr("id", "arrowhead")
     .attr("viewBox", "-0 -5 10 10")
-    .attr("refX", 13)
+    .attr("refX", 20)
     .attr("refY", 0)
     .attr("orient", "auto")
-    .attr("markerWidth", 13)
-    .attr("markerHeight", 13)
+    .attr("markerWidth", 15)
+    .attr("markerHeight", 10)
     .attr("xoverflow", "visible")
     .append("svg:path")
     .attr("d", "M 0,-5 L 10 ,0 L 0,5")
-    .attr("fill", "#999")
+    .attr("fill", "#59A925")
     .style("stroke", "none");
+
+  var gradient = defs
+    .append("linearGradient")
+    .attr("id", "svgGradient")
+    .attr("x1", "0%")
+    .attr("x2", "100%")
+    .attr("y1", "0%")
+    .attr("y2", "100%");
+
+  gradient
+    .append("stop")
+    .attr("class", "start")
+    .attr("offset", "50%")
+    .attr("stop-color", "#1FEBFF")
+    .attr("stop-opacity", 1);
+
+  gradient
+    .append("stop")
+    .attr("class", "end")
+    .attr("offset", "100%")
+    .attr("stop-color", "#1FFFBB")
+    .attr("stop-opacity", 1);
+
+  var dropshadow = defs.append("filter").attr("id", "shadowf");
+
+  dropshadow
+    .append("feDropShadow")
+    .attr("dx", "0")
+    .attr("dy", "0")
+    .attr("stdDeviation", "0.5")
+    .attr("flood-color", "cyan");
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -111,9 +142,9 @@ export function runForceGraph(
     .append("line")
     .attr("class", "link")
     .attr("marker-end", "url(#arrowhead)")
-    .style("stroke", "#999")
-    .style("stroke-opacity", 0.6)
-    .style("stroke-width", "1px");
+    .style("stroke", "#59A925")
+    .style("stroke-opacity", 1)
+    .style("stroke-width", 2);
 
   link
     .append("title")
@@ -166,25 +197,32 @@ export function runForceGraph(
     .data(nodes)
     .enter()
     .append("g")
+    .attr("stroke", "snow")
+    .attr("stroke-width", 4)
     .attr("class", "node")
     .call(drag(simulation));
+
   node
     .append("circle")
-    .attr("r", 5)
-    .style("fill", function (d, i) {
-      return colors(i);
-    });
-
-  node.append("title").text(function (d) {
-    return d.name;
-  });
+    .attr("class", "shadow")
+    .attr("r", 20)
+    .style("fill", "#6DD32B")
+    .style("filter", "url(#shadowf)");
+  // .style("fill", function (d, i) {
+  //   return colors(i);
+  // });
 
   node
     .append("text")
-    .attr("dy", -3)
+    .attr("dy", -20)
+    .attr("dx", 20)
     .text(function (d) {
       return d.name;
-    });
+    })
+
+    .attr("fill", "snow")
+    .attr("stroke-width", 1)
+    .attr("stroke", "snow");
 
   node
     .on("mouseover", (d) => {
