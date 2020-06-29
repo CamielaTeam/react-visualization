@@ -439,9 +439,7 @@ function main(inputText) {
 }
 
 function generateMatrix() {
-  console.log(ruta_entradas);
   var files = fs.readdirSync(ruta_entradas);
-  console.log(files);
   files.forEach(function (file) {
     if (file !== ".DS_Store") {
       var input = fs.readFileSync(`./archivos_entrada/${file}`).toString();
@@ -452,6 +450,33 @@ function generateMatrix() {
   return [listOfComponentsInProject, componentMatrix];
 }
 
+function resetVariables() {
+  //  Variables globales del proyecto
+  listOfComponentsInProject = [];
+  componentMatrix = [];
+
+  //  Variables locales del listener
+  listOfImports = [];
+  currentComponent = "";
+  currentPropTypesComponent = "";
+  currentComponentCall = "";
+  insideImport = false;
+  listOfComponentsInFile = [];
+  arrayOfComponentCalls = [];
+  index_of_component = null;
+  repeatedComponent = null;
+  currentPropType = null;
+  currentComponentCalls = null;
+
+  var files = fs.readdirSync(ruta_entradas);
+  files.forEach(function (file) {
+    if (file !== ".DS_Store") {
+      fs.unlinkSync(`./archivos_entrada/${file}`);
+    }
+  });
+}
+
 module.exports = {
   generateMatrix,
+  resetVariables,
 };
