@@ -92,6 +92,15 @@ ReactListener.prototype.exitHtml_elements = function(ctx) {
 };
 
 
+// Enter a parse tree produced by ReactParser#html_short_element.
+ReactListener.prototype.enterHtml_short_element = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#html_short_element.
+ReactListener.prototype.exitHtml_short_element = function(ctx) {
+};
+
+
 // Enter a parse tree produced by ReactParser#props.
 ReactListener.prototype.enterProps = function(ctx) {
 };
@@ -146,15 +155,6 @@ ReactListener.prototype.exitAdding_proptypes = function(ctx) {
 };
 
 
-// Enter a parse tree produced by ReactParser#expr.
-ReactListener.prototype.enterExpr = function(ctx) {
-};
-
-// Exit a parse tree produced by ReactParser#expr.
-ReactListener.prototype.exitExpr = function(ctx) {
-};
-
-
 // Enter a parse tree produced by ReactParser#prop_types_body.
 ReactListener.prototype.enterProp_types_body = function(ctx) {
 };
@@ -170,6 +170,87 @@ ReactListener.prototype.enterTypes_of_proptypes = function(ctx) {
 
 // Exit a parse tree produced by ReactParser#types_of_proptypes.
 ReactListener.prototype.exitTypes_of_proptypes = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#var_def.
+ReactListener.prototype.enterVar_def = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#var_def.
+ReactListener.prototype.exitVar_def = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#stmt.
+ReactListener.prototype.enterStmt = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#stmt.
+ReactListener.prototype.exitStmt = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#simple_stmt.
+ReactListener.prototype.enterSimple_stmt = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#simple_stmt.
+ReactListener.prototype.exitSimple_stmt = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#block.
+ReactListener.prototype.enterBlock = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#block.
+ReactListener.prototype.exitBlock = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#expr.
+ReactListener.prototype.enterExpr = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#expr.
+ReactListener.prototype.exitExpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#cexpr.
+ReactListener.prototype.enterCexpr = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#cexpr.
+ReactListener.prototype.exitCexpr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#list_expr.
+ReactListener.prototype.enterList_expr = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#list_expr.
+ReactListener.prototype.exitList_expr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#more_expr.
+ReactListener.prototype.enterMore_expr = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#more_expr.
+ReactListener.prototype.exitMore_expr = function(ctx) {
+};
+
+
+// Enter a parse tree produced by ReactParser#target.
+ReactListener.prototype.enterTarget = function(ctx) {
+};
+
+// Exit a parse tree produced by ReactParser#target.
+ReactListener.prototype.exitTarget = function(ctx) {
 };
 
 

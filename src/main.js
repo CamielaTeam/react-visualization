@@ -29,6 +29,7 @@ var currentPropTypesComponent = "";
 var currentComponentCall = "";
 var insideImport = false;
 var listOfComponentsInFile = [];
+var arrayOfComponentCalls = [];
 
 
 KeyPrinter.prototype = Object.create(ReactListener.prototype);
@@ -64,11 +65,76 @@ KeyPrinter.prototype.enterHtml_elements = function(ctx){
       }
     }
 
-    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID()[0].toString()] = {};
+
+    if(arrayOfComponentCalls.filter(component => {
+      return component.name === ctx.ID()[0].toString()
+    }).length === 0){
+      arrayOfComponentCalls.push({name: ctx.ID()[0].toString(), count: 1});
+    }else{
+
+      var indx = -1;
+      arrayOfComponentCalls.forEach(component => {
+        if(component.name === ctx.ID()[0].toString()){
+          repeatedComponent = component;
+        }
+        indx = indx + 1;
+      })
+      arrayOfComponentCalls[indx].count = arrayOfComponentCalls[indx].count+1;
+    }
+
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID()[0].toString()] = 
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID()[0].toString()] ?
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID()[0].toString()] :
+    {};
+    
     currentComponentCall = ctx.ID()[0].toString();
   }
 
 }
+
+KeyPrinter.prototype.enterHtml_short_element = function(ctx) {
+  if(listOfComponentsInFile.filter((component) => 
+  { return component.name === currentComponent}
+  ).length === 0){
+    listOfComponentsInFile.push({name: currentComponent, componentsInside: {}});
+  }
+  if(listOfImports.includes(ctx.ID().toString())){
+    
+    index_of_component = -1;
+
+    for(var i = 0; i < listOfComponentsInFile.length; i++){
+      if(listOfComponentsInFile[i].name === currentComponent){
+        index_of_component = i;
+        break;
+      }
+    }
+
+
+    if(arrayOfComponentCalls.filter(component => {
+      return component.name === ctx.ID().toString()
+    }).length === 0){
+      arrayOfComponentCalls.push({name: ctx.ID().toString(), count: 1});
+    }else{
+
+      var indx = -1;
+      arrayOfComponentCalls.forEach(component => {
+        if(component.name === ctx.ID().toString()){
+          repeatedComponent = component;
+        }
+        indx = indx + 1;
+      })
+      arrayOfComponentCalls[indx].count = arrayOfComponentCalls[indx].count+1;
+    }
+
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID().toString()] = 
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID().toString()] ?
+    listOfComponentsInFile[index_of_component].componentsInside[ctx.ID().toString()] :
+    {};
+    
+    currentComponentCall = ctx.ID().toString();
+  }
+};
+
 
 KeyPrinter.prototype.enterNo_id_import = function(ctx){
   insideImport = true;
@@ -106,7 +172,7 @@ KeyPrinter.prototype.enterAdding_proptypes = function(ctx){
       break;
     }
   }
-  listOfComponentsInFile[i].mustReceiveProps = [];
+  listOfComponentsInFile[index_of_component].mustReceiveProps = [];
 }
 
 KeyPrinter.prototype.exitAdding_proptypes = function(ctx){
@@ -116,8 +182,17 @@ KeyPrinter.prototype.exitAdding_proptypes = function(ctx){
 
 
 
+
 KeyPrinter.prototype.enterProps = function(ctx){
+  
   if(listOfImports.includes(currentComponentCall)){
+    var repeated = false;
+    
+    var possibleRepeatedComponent = arrayOfComponentCalls.filter(component => {return component.name === currentComponentCall})[0];
+    if(possibleRepeatedComponent.count >= 2){
+      console.log("REPETIDO ", possibleRepeatedComponent.name);
+      repeated = true;
+    }
     index_of_component = -1;
     for(var i = 0; i < listOfComponentsInFile.length; i++){
       if(listOfComponentsInFile[i].name === currentComponent){
@@ -125,12 +200,81 @@ KeyPrinter.prototype.enterProps = function(ctx){
         break;
       }
     }
-    listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps ? 
+    
+
+    if(!repeated){
+      listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps ? 
       listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps.push(ctx.ID().toString()) :
       listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps = [ctx.ID().toString()];
+    }else{
+      console.log("REPETIDO CASO");
+      console.log(util.inspect(listOfComponentsInFile[index_of_component].componentsInside, {showHidden: false, depth: null}))
+
+      if(possibleRepeatedComponent.count >= 2 && 
+        !Array.isArray( listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps[0])){
+          console.log("Primer caso");
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps = [listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps];
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps[possibleRepeatedComponent.count -1] = [ctx.ID().toString()]
+      }else{
+        console.log("Segundo caso");
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps[possibleRepeatedComponent.count -1].push(ctx.ID().toString());
+      }
+    }
+    
   }
-  
 }
+
+ReactListener.prototype.enterMore_props = function(ctx) {
+  if(listOfImports.includes(currentComponentCall)){
+    var repeated = false;
+    
+    var possibleRepeatedComponent = arrayOfComponentCalls.filter(component => {return component.name === currentComponentCall})[0];
+    if(possibleRepeatedComponent.count >= 2){
+      console.log("REPETIDO ", possibleRepeatedComponent.name);
+      repeated = true;
+    }
+    index_of_component = -1;
+    for(var i = 0; i < listOfComponentsInFile.length; i++){
+      if(listOfComponentsInFile[i].name === currentComponent){
+        index_of_component = i;
+        break;
+      }
+    }
+    
+
+    if(!repeated){
+      listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps ? 
+      listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps.push(ctx.ID().toString()) :
+      listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps = [ctx.ID().toString()];
+    }else{
+      console.log("REPETIDO CASO");
+      console.log(util.inspect(listOfComponentsInFile[index_of_component].componentsInside, {showHidden: false, depth: null}))
+
+      if(possibleRepeatedComponent.count >= 2 && 
+        !Array.isArray( listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps[0])){
+          console.log("Primer caso");
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps = [listOfComponentsInFile[index_of_component].componentsInside[currentComponentCall].passedProps];
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps[possibleRepeatedComponent.count -1] = [ctx.ID().toString()]
+      }else{
+        console.log("Segundo caso");
+        listOfComponentsInFile[index_of_component]
+        .componentsInside[currentComponentCall]
+        .passedProps[possibleRepeatedComponent.count -1].push(ctx.ID().toString());
+      }
+    }
+    
+  }
+};
 
 KeyPrinter.prototype.enterProp_types_body = function(ctx){
   index_of_component = -1;
@@ -181,6 +325,8 @@ KeyPrinter.prototype.exitProgram = function (ctx) {
   insideImport = false;
   listOfComponentsInFile = [];
   currentPropType = "";
+  arrayOfComponentCalls = [];
+  
 };
 
 
@@ -204,9 +350,6 @@ function matrixFromArray(arrayOfComponents){
       })[0];
       var componentToMatrix = { name: columnComponent.name, props: []};
 
-      //  Aca toca poner las props en el objeto componentToMatrix
-
-      console.log(arrayOfComponents[i]);
       if(arrayOfComponents[i].componentsInside[nameOfComponent].passedProps){
         for(var k = 0; k<arrayOfComponents[i].componentsInside[nameOfComponent].passedProps.length; k++){
           componentToMatrix.props.push(arrayOfComponents[i].componentsInside[nameOfComponent].passedProps[k]);
@@ -235,15 +378,15 @@ function main(inputText) {
 
  function generateMatrix(){
   var files = fs.readdirSync(ruta_entradas);
-  console.log(files);
   files.forEach(function (file) {
     var input = fs.readFileSync(`./archivos_entrada/${file}`).toString();
     main(input);
   });
   matrixFromArray(listOfComponentsInProject);
-  return componentMatrix;
+  return [listOfComponentsInProject, componentMatrix];
 }
 
 
 var matrizFinal = generateMatrix();
-console.log(util.inspect(matrizFinal, {showHidden: false, depth: null}))
+
+console.log(util.inspect(matrizFinal, {showHidden: false, depth: null}));
