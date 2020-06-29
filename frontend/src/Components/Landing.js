@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Uploader from "./Uploader";
-
 import ForceGraph from "../Graph/ForceGraph";
-import data from "../forcegraph-data.json";
 
 export default function LandingView({
   setNodes,
