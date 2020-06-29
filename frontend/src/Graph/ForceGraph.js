@@ -19,10 +19,11 @@ export default function ForceGraph({ links, nodes }) {
     Object.keys(node.componentsInside).forEach((component) => {
       console.log(component);
       let componentInsideProps = "";
-      node.componentsInside[component].passedProps.forEach((element) => {
-        componentInsideProps = componentInsideProps + `<li>${element}</li>`;
-      });
-
+      if (node.componentsInside[component].passedProps) {
+        node.componentsInside[component].passedProps.forEach((element) => {
+          componentInsideProps = componentInsideProps + `<li>${element}</li>`;
+        });
+      }
       renderedOutProps = `<strong>${component}</strong><ul>${componentInsideProps}</ul>`;
     });
     console.log("OK");
@@ -40,6 +41,11 @@ export default function ForceGraph({ links, nodes }) {
     </div>
     </divcontent>`;
   };
+
+  // const nodeHoverTooltip = React.useCallback((node) => {
+  //   console.log("object");
+  //   return `<div>${node.name}</div>`;
+  // }, []);
 
   React.useEffect(() => {
     runForceGraph(links, nodes, nodeHoverTooltip);
