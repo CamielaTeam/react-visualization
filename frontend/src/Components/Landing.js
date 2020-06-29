@@ -8,23 +8,9 @@ import data from "../forcegraph-data.json";
 export default function LandingView({
   setNodes,
   setPropsMatrix,
-  propsMatrix,
+  links,
   nodes,
 }) {
-  const transformMatrixToLink = (matrix, nodes) => {
-    const links = [];
-
-    for (var i = 0; i < matrix.length; i++) {
-      for (var z = 0; z < matrix.length; z++) {
-        if (matrix[i][z]) {
-          links.push({ source: nodes[i].name, target: nodes[z].name });
-        }
-      }
-    }
-    return links;
-  };
-  const [links, setLinks] = useState(transformMatrixToLink(propsMatrix, nodes));
-
   return (
     <div className="App">
       <Navbar></Navbar>
@@ -36,9 +22,7 @@ export default function LandingView({
           ></Uploader>
         </div>
         <div className="landing_graph">
-          <section className="Main">
-            <ForceGraph linksData={links} nodesData={nodes} />
-          </section>
+          <ForceGraph links={links} nodes={nodes} />
         </div>
       </div>
     </div>

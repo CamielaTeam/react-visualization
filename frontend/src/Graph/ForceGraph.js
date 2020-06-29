@@ -2,22 +2,20 @@ import React from "react";
 import { runForceGraph } from "./ForceGraphGenerator";
 import styles from "./forceGraph.module.css";
 
-export default function ForceGraph({ linksData, nodesData }) {
+export default function ForceGraph({ links, nodes }) {
   const containerRef = React.useRef(null);
-  console.log("linksData", linksData);
-  console.log("nodesData", nodesData);
+  console.log("links", links);
+  console.log("nodes", nodes);
 
-  const nodeHoverTooltip = React.useCallback((node) => {
-    console.log("node", node);
+  const nodeHoverTooltip = (node) => {
     let renderedInProps = "";
     node.mustReceiveProps.forEach((prop) => {
-      console.log(prop);
       renderedInProps =
         renderedInProps + `<li>${prop.name + ": " + prop.type}</li>`;
     });
 
     let renderedOutProps = "";
-    console.log(node.componentsInside);
+
     Object.keys(node.componentsInside).forEach((component) => {
       console.log(component);
       let componentInsideProps = "";
@@ -41,11 +39,11 @@ export default function ForceGraph({ linksData, nodesData }) {
     </div>
     </div>
     </divcontent>`;
-  }, []);
+  };
 
   React.useEffect(() => {
-    runForceGraph(containerRef.current, linksData, nodesData, nodeHoverTooltip);
-  }, [nodesData]);
+    runForceGraph(links, nodes, nodeHoverTooltip);
+  }, [links]);
 
-  return <div ref={containerRef} className={styles.container} />;
+  return <svg width="960" height="600"></svg>;
 }

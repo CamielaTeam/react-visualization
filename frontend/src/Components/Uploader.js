@@ -25,7 +25,6 @@ export default function Uploader({ setNodes, setPropsMatrix }) {
 
       .then((res) => {
         // then print response status
-        console.log("archivos subidos", res.statusText);
         axios
           .get("http://localhost:8000/getGraph", data, {
             // receive two    parameter endpoint url ,form data
@@ -37,10 +36,7 @@ export default function Uploader({ setNodes, setPropsMatrix }) {
             const dataForGraph = res.data.dataForGraph;
             setNodes(dataForGraph[0]);
             setPropsMatrix(dataForGraph[1]);
-            // console.log("arr", arr);
           });
-        // const arr = generateMatrix();
-        // console.log("arr", arr);
       });
   };
 
@@ -72,7 +68,6 @@ export default function Uploader({ setNodes, setPropsMatrix }) {
   const handleClick = (event) => {
     document.getElementById("hiddenFileInput").click();
   };
-  console.log(selectedFile);
 
   const renderSelectedFiles = () => {
     const renderedSelectedFiles = [];
@@ -91,7 +86,7 @@ export default function Uploader({ setNodes, setPropsMatrix }) {
       <label className="custom-file-upload">
         <input
           type="file"
-          class="form-control"
+          className="form-control"
           id="hiddenFileInput"
           style={{ display: "none" }}
           multiple
@@ -105,7 +100,7 @@ export default function Uploader({ setNodes, setPropsMatrix }) {
       {renderedSelectedFiles}
       <button
         type="button"
-        class="btn btn-success btn-block upload_button"
+        className="btn btn-success btn-block upload_button"
         onClick={onClickHandler}
       >
         Upload

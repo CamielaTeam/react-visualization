@@ -2,19 +2,8 @@ import * as d3 from "d3";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from "./forceGraph.module.css";
 
-export function runForceGraph(
-  container,
-  linksData,
-  nodesData,
-  nodeHoverTooltip
-) {
+export function runForceGraph(links, nodes, nodeHoverTooltip) {
   const colors = d3.scaleOrdinal(d3.schemeCategory10).domain(["foo", "baz"]);
-
-  const links = linksData.map((d) => Object.assign({}, d));
-  const nodes = nodesData.map((d) => Object.assign({}, d));
-  const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height;
-  const width = containerRect.width;
 
   // Add the tooltip element to the graph
   const tooltip = document.querySelector("#graph-tooltip");
@@ -68,21 +57,20 @@ export function runForceGraph(
     div.transition().duration(200).style("opacity", 0);
   };
 
-  const svg = d3
-    .select(container)
-    .append("svg")
-    .attr("viewBox", [-width / 2, -height / 2, width, height]);
-
+  var svg = d3.select("svg");
+  svg.append("defs").append("marker");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
   var defs = svg.append("defs");
   defs
     .append("marker")
     .attr("id", "arrowhead")
     .attr("viewBox", "-0 -5 10 10")
-    .attr("refX", 20)
+    .attr("refX", 13)
     .attr("refY", 0)
     .attr("orient", "auto")
-    .attr("markerWidth", 15)
-    .attr("markerHeight", 10)
+    .attr("markerWidth", 13)
+    .attr("markerHeight", 13)
     .attr("xoverflow", "visible")
     .append("svg:path")
     .attr("d", "M 0,-5 L 10 ,0 L 0,5")
@@ -132,9 +120,7 @@ export function runForceGraph(
     )
 
     .force("charge", d3.forceManyBody())
-    .force("x", d3.forceX())
-    .force("y", d3.forceY());
-
+    .force("center", d3.forceCenter(width / 2, height / 2));
   const link = svg
     .selectAll(".link")
     .data(links)
