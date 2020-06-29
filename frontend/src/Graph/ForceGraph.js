@@ -33,11 +33,11 @@ export default function ForceGraph({ links, nodes }) {
     <h1>${node.name}</h1>
     <div class="tooltip_content">
     <div class="tooltip_left_column">
-    <div class="tooltip_column_title"><h2>IN</h2></div>
+    <div class="tooltip_column_title"><h2>IN PROPS</h2></div>
     <ul>${renderedInProps}</ul>
     </div>
     <div class="tooltip_column">
-    <div class="tooltip_column_title"><h2>OUT</h2></div>
+    <div class="tooltip_column_title"><h2>OUT PROPS</h2></div>
     ${renderedOutProps}
     </div>
     </div>

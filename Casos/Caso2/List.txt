@@ -1,0 +1,10 @@
+import {asd, bfs} from 'ruta';
+import CustomButton from 'ruta';
+function List(props){
+    return(
+        <div></div>
+    );
+};
+List.propTypes = {
+  itemList: PropTypes.array
+};
