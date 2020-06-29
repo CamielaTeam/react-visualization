@@ -3,7 +3,7 @@ var app = express();
 var multer = require("multer");
 var cors = require("cors");
 const createMatrix = require("./main").generateMatrix;
-
+const resetVariables = require("./main").resetVariables;
 app.use(cors());
 
 var storage = multer.diskStorage({
@@ -33,6 +33,7 @@ app.post("/upload", function (req, res) {
 
 app.get("/getGraph", function (req, res) {
   var dataForGraph = createMatrix();
+  resetVariables();
   res.json({
     dataForGraph,
   });

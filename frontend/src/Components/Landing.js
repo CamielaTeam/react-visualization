@@ -11,38 +11,6 @@ export default function LandingView({
   propsMatrix,
   nodes,
 }) {
-  const nodeHoverTooltip = React.useCallback((node) => {
-    console.log("node", node);
-    let renderedInProps = "";
-    node.mustReceiveProps.forEach((prop) => {
-      console.log(prop);
-      renderedInProps =
-        renderedInProps + `<li>${prop.name + ": " + prop.type}</li>`;
-    });
-
-    let renderedOutProps = "";
-    Object.keys(node.componentsInside).forEach((component) => {
-      let componentInsideProps = "";
-      node.componentsInside[component].passedProps.forEach((element) => {
-        componentInsideProps = componentInsideProps + `<li>${element}</li>`;
-      });
-
-      renderedOutProps = `<strong>${component}</strong><ul>${componentInsideProps}</ul>`;
-    });
-    return `<div class="tooltip_container">
-    <h1>${node.name}</h1>
-    <div class="tooltip_content">
-    <div class="tooltip_row_left">
-    <strong>IN</strong>
-    <ul>${renderedInProps}</ul>
-    </div>
-    <div class="tooltip_row">
-    <strong>OUT</strong>
-    ${renderedOutProps}
-    </div>
-    </div>
-    </divcontent>`;
-  }, []);
   const transformMatrixToLink = (matrix, nodes) => {
     const links = [];
 
@@ -69,11 +37,7 @@ export default function LandingView({
         </div>
         <div className="landing_graph">
           <section className="Main">
-            <ForceGraph
-              linksData={links}
-              nodesData={nodes}
-              nodeHoverTooltip={nodeHoverTooltip}
-            />
+            <ForceGraph linksData={links} nodesData={nodes} />
           </section>
         </div>
       </div>
