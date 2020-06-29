@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-// import Landing from "./Graph/Landing";
+import Landing from "./Components/Landing";
 import ForceGraph from "./Graph/ForceGraph";
 import data from "./forcegraph-data.json";
 
@@ -88,13 +88,14 @@ export default function App() {
 
   return (
     <div className="App">
-      <section className="Main">
+      <Landing></Landing>
+      {/* <section className="Main">
         <ForceGraph
           linksData={links}
           nodesData={nodes}
           nodeHoverTooltip={nodeHoverTooltip}
         />
-      </section>
+      </section> */}
     </div>
   );
 }

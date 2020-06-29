@@ -5,7 +5,7 @@ body {
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: darkslateblue;
+  background-color: #404040;
 }
 
 *,
@@ -19,4 +19,16 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.root,
+html {
+  font-size: 10px;
+}
+html,
+#root,
+body,
+#app,
+#app > div {
+  height: 100%;
 }
