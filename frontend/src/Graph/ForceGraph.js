@@ -1,6 +1,6 @@
 import React from "react";
 import { runForceGraph } from "./ForceGraphGenerator";
-import styles from "./forceGraph.module.css";
+import "./graphStyles.css";
 
 export default function ForceGraph({ links, nodes }) {
   const containerRef = React.useRef(null);
@@ -11,7 +11,8 @@ export default function ForceGraph({ links, nodes }) {
     let renderedInProps = "";
     node.mustReceiveProps.forEach((prop) => {
       renderedInProps =
-        renderedInProps + `<li>${prop.name + ": " + prop.type}</li>`;
+        renderedInProps +
+        `<div class="propBox">${prop.name + ": " + prop.type}</div>`;
     });
 
     let renderedOutProps = "";
@@ -21,21 +22,22 @@ export default function ForceGraph({ links, nodes }) {
       let componentInsideProps = "";
       if (node.componentsInside[component].passedProps) {
         node.componentsInside[component].passedProps.forEach((element) => {
-          componentInsideProps = componentInsideProps + `<li>${element}</li>`;
+          componentInsideProps =
+            componentInsideProps + `<div class="propBox">${element}</div>`;
         });
       }
-      renderedOutProps = `<strong>${component}</strong><ul>${componentInsideProps}</ul>`;
+      renderedOutProps = `<div class="tooltip_column_subtitle"><h3>${component}</h3></div><ul>${componentInsideProps}</ul>`;
     });
     console.log("OK");
     return `<div class="tooltip_container">
     <h1>${node.name}</h1>
     <div class="tooltip_content">
-    <div class="tooltip_row_left">
-    <strong>IN</strong>
+    <div class="tooltip_left_column">
+    <div class="tooltip_column_title"><h2>IN</h2></div>
     <ul>${renderedInProps}</ul>
     </div>
-    <div class="tooltip_row">
-    <strong>OUT</strong>
+    <div class="tooltip_column">
+    <div class="tooltip_column_title"><h2>OUT</h2></div>
     ${renderedOutProps}
     </div>
     </div>

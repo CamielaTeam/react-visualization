@@ -48,8 +48,8 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
       .html(hoverTooltip(d))
       .style("left", `${x}px`)
       .style("top", `${y - 28}px`)
-      .style("background-color", "#4B4B4B")
-      .style("border", "2px solid color darkturquoise")
+      .style("background-color", "#202020")
+      .style("border", "2px solid darkturquoise")
       .style("width", "auto");
   };
 

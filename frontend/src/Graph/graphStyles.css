@@ -1,0 +1,62 @@
+.tooltip_container {
+  display: flex;
+  flex-direction: column;
+  font-family: "Courier New", Courier, monospace;
+}
+.tooltip_container > h1 {
+  font-weight: 600;
+  background-color: #202020;
+  color: darkturquoise;
+  padding: 2px;
+}
+
+.tooltip_column_title {
+  color: darkturquoise;
+  padding: 1rem;
+  align-items: center;
+  text-align: center;
+  background-color: #202020;
+}
+
+.tooltip_column_subtitle {
+  color: snow;
+  padding: 1rem;
+  align-items: center;
+}
+
+.tooltip_content {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.tooltip_column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 5px;
+  text-align: left;
+}
+.tooltip_left_column {
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid darkturquoise;
+  flex: 1;
+  padding: 5px;
+  text-align: left;
+}
+
+.tooltip_column div,
+.tooltip_left_column div {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.propBox {
+  margin: 1rem;
+  padding: 1rem;
+  border: 2px solid darkturquoise;
+  align-items: center;
+  justify-content: center;
+  color: snow;
+}
