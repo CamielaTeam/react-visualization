@@ -5,12 +5,12 @@ import ForceGraph from "./Graph/ForceGraph";
 import data from "./forcegraph-data.json";
 
 export default function App() {
-  const propsMatrix = [
+  const [propsMatrix, setPropsMatrix] = useState([
     [null, { name: "Componente2", props: ["primeraProp"] }, null],
     [null, null, null],
     [{ name: "Componente", props: ["propDePrueba"] }, null, null],
-  ];
-  const nodes = [
+  ]);
+  const [nodes, setNodes] = useState([
     {
       name: "Componente",
       componentsInside: { Componente2: { passedProps: ["primeraProp"] } },
@@ -38,7 +38,8 @@ export default function App() {
       ],
       index: 2,
     },
-  ];
+  ]);
+
   const transformMatrixToLink = (matrix, nodes) => {
     const links = [];
 
@@ -88,7 +89,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <Landing></Landing>
+      <Landing setPropsMatrix={setPropsMatrix} setNodes={setNodes}></Landing>
       {/* <section className="Main">
         <ForceGraph
           linksData={links}

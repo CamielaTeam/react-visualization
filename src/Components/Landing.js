@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Uploader from "./Uploader";
-export default function LandingView() {
+export default function LandingView({ setNodes, setPropsMatrix }) {
   return (
     <div className="App">
       <Navbar></Navbar>
       <div className="landing_content">
         <div className="landing_files">
-          <Uploader></Uploader>
+          <Uploader
+            setPropsMatrix={setPropsMatrix}
+            setNodes={setNodes}
+          ></Uploader>
         </div>
         <div className="landing_graph">graph</div>
       </div>

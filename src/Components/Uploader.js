@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-
-export default function LandingView() {
-  const [selectedFile, setSelectedFile] = useState(null);
+import { generateMatrix } from "../../backend/main";
+export default function Uploader({ setNodes, setPropsMatrix }) {
+  const [selectedFile, setSelectedFile] = useState([]);
   const [loader, setLoader] = useState(null);
 
   const onChangeHandler = (event) => {
@@ -26,6 +26,7 @@ export default function LandingView() {
       .then((res) => {
         // then print response status
         console.log(res.statusText);
+        generateMatrix();
       });
   };
 
@@ -57,14 +58,28 @@ export default function LandingView() {
   const handleClick = (event) => {
     document.getElementById("hiddenFileInput").click();
   };
+  console.log(selectedFile);
 
+  const renderSelectedFiles = () => {
+    const renderedSelectedFiles = [];
+    for (var x = 0; x < selectedFile.length; x++) {
+      renderedSelectedFiles.push(
+        <div className="filebox">{selectedFile[x].name}</div>
+      );
+    }
+    return renderedSelectedFiles;
+  };
+  const renderedSelectedFiles = renderSelectedFiles();
   return (
     <div className="uploader">
+      <div className="uploader_title">Upload files</div>
+
       <label className="custom-file-upload">
-        Upload files
         <input
           type="file"
           class="form-control"
+          id="hiddenFileInput"
+          style={{ display: "none" }}
           multiple
           onChange={onChangeHandler}
         />
@@ -79,6 +94,8 @@ export default function LandingView() {
       >
         Upload
       </button>
+      <div className="uploader_title">Files</div>
+      {renderedSelectedFiles}
     </div>
   );
 }
