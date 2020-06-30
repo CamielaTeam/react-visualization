@@ -48,7 +48,11 @@ export default function App() {
     for (var i = 0; i < matrix.length; i++) {
       for (var z = 0; z < matrix.length; z++) {
         if (matrix[i][z]) {
-          newLinks.push({ source: nodes[i].name, target: nodes[z].name });
+          newLinks.push({
+            source: nodes[i].name,
+            target: nodes[z].name,
+            props: matrix[i][z].props,
+          });
         }
       }
     }

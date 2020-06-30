@@ -3,9 +3,15 @@ import { runForceGraph } from "./ForceGraphGenerator";
 import "./graphStyles.css";
 
 export default function ForceGraph({ links, nodes }) {
-  const containerRef = React.useRef(null);
-  console.log("links", links);
-  console.log("nodes", nodes);
+  const linkHoverTooltip = (link) => {
+    let passedProps = "";
+    link.props.forEach((prop) => {
+      passedProps = passedProps + `<div class="propBox">${prop}</div>`;
+    });
+    console.log("OK");
+    return `<div class="tooltip_container"><h1></h1> 
+    <div class="tooltip_column_title"><h2>Passed props</h2></div>${passedProps}</div>`;
+  };
 
   const nodeHoverTooltip = (node) => {
     let renderedInProps = "";
@@ -52,7 +58,7 @@ export default function ForceGraph({ links, nodes }) {
   // }, []);
 
   React.useEffect(() => {
-    runForceGraph(links, nodes, nodeHoverTooltip);
+    runForceGraph(links, nodes, nodeHoverTooltip, linkHoverTooltip);
   }, [links]);
 
   return (

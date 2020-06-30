@@ -2,7 +2,12 @@ import * as d3 from "d3";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import styles from "./forceGraph.module.css";
 
-export function runForceGraph(links, nodes, nodeHoverTooltip) {
+export function runForceGraph(
+  links,
+  nodes,
+  nodeHoverTooltip,
+  linkHoverTooltip
+) {
   const colors = d3.scaleOrdinal(d3.schemeCategory10).domain(["foo", "baz"]);
 
   // Add the tooltip element to the graph
@@ -13,16 +18,6 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
     tooltipDiv.style.opacity = "0";
     tooltipDiv.id = "graph-tooltip";
     document.body.appendChild(tooltipDiv);
-  }
-
-  // Add the tooltip element to the graph
-  const linkTooltip = document.querySelector("#graph-link-tooltip");
-  if (!linkTooltip) {
-    const linkTooltipDiv = document.createElement("div");
-    linkTooltipDiv.classList.add(styles.linkTooltip);
-    linkTooltipDiv.style.opacity = "0";
-    linkTooltipDiv.id = "graph-link-tooltip";
-    document.body.appendChild(linkTooltipDiv);
   }
 
   const drag = (simulation) => {
@@ -50,10 +45,8 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
       .on("end", dragended);
   };
   const div = d3.select("#graph-tooltip");
-  const linkdiv = d3.select("#graph-link-tooltip");
 
   const addTooltip = (hoverTooltip, d, x, y, type) => {
-    console.log(hoverTooltip);
     div.transition().duration(200).style("opacity", 1);
     div
       .html(hoverTooltip(d))
@@ -185,7 +178,7 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
   link
     .on("mouseover", (d) => {
       console.log("link d", d);
-      // addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY, "link");
+      addTooltip(linkHoverTooltip, d, d3.event.pageX, d3.event.pageY, "link");
     })
     .on("mouseout", () => {
       removeTooltip();
