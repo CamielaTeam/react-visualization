@@ -4,7 +4,7 @@ import CustomButton from 'ruta';
 function LandingView(props){
     return(
         <div>
-          <List itemList={itemList} />
+          <List itemList={itemList} listType={listType}/>
           <CustomButton onClick={onClick}></CustomButton>
         </div>
     );

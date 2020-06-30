@@ -26,7 +26,9 @@ export default function ForceGraph({ links, nodes }) {
             componentInsideProps + `<div class="propBox">${element}</div>`;
         });
       }
-      renderedOutProps = `<div class="tooltip_column_subtitle"><h3>${component}</h3></div><ul>${componentInsideProps}</ul>`;
+      renderedOutProps =
+        renderedOutProps +
+        `<div class="tooltip_column_subtitle"><h3>${component}</h3></div><ul>${componentInsideProps}</ul>`;
     });
     console.log("OK");
     return `<div class="tooltip_container">
