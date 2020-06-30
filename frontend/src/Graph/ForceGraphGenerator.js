@@ -15,6 +15,16 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
     document.body.appendChild(tooltipDiv);
   }
 
+  // Add the tooltip element to the graph
+  const linkTooltip = document.querySelector("#graph-link-tooltip");
+  if (!linkTooltip) {
+    const linkTooltipDiv = document.createElement("div");
+    linkTooltipDiv.classList.add(styles.linkTooltip);
+    linkTooltipDiv.style.opacity = "0";
+    linkTooltipDiv.id = "graph-link-tooltip";
+    document.body.appendChild(linkTooltipDiv);
+  }
+
   const drag = (simulation) => {
     const dragstarted = (d) => {
       if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -40,8 +50,9 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
       .on("end", dragended);
   };
   const div = d3.select("#graph-tooltip");
+  const linkdiv = d3.select("#graph-link-tooltip");
 
-  const addTooltip = (hoverTooltip, d, x, y) => {
+  const addTooltip = (hoverTooltip, d, x, y, type) => {
     console.log(hoverTooltip);
     div.transition().duration(200).style("opacity", 1);
     div
@@ -58,62 +69,8 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
   };
 
   var svg = d3.select("svg");
-  svg.append("defs").append("marker");
   const width = +svg.attr("width");
   const height = +svg.attr("height");
-  var defs = svg.append("defs");
-  defs
-    .append("marker")
-    .attr("id", "arrowhead")
-    .attr("viewBox", "-0 -5 10 10")
-    .attr("refX", 13)
-    .attr("refY", 0)
-    .attr("orient", "auto")
-    .attr("markerWidth", 13)
-    .attr("markerHeight", 13)
-    .attr("xoverflow", "visible")
-    .append("svg:path")
-    .attr("d", "M 0,-5 L 10 ,0 L 0,5")
-    .attr("fill", "darkturquoise")
-    .style("stroke", "none");
-
-  var gradient = defs
-    .append("linearGradient")
-    .attr("id", "svgGradient")
-    .attr("x1", "0%")
-    .attr("x2", "100%")
-    .attr("y1", "0%")
-    .attr("y2", "100%");
-
-  gradient
-    .append("stop")
-    .attr("class", "start")
-    .attr("offset", "50%")
-    .attr("stop-color", "white")
-    .attr("stop-opacity", 1);
-
-  gradient
-    .append("stop")
-    .attr("class", "end")
-    .attr("offset", "100%")
-    .attr("stop-color", "#1FFFBB")
-    .attr("stop-opacity", 1);
-
-  // var filterShadow = defs
-  //   .append("filter")
-  //   .attr("id", "shadow")
-  //   .attr("x", "0")
-  //   .attr("y", "0")
-  //   .attr("width", "200%")
-  //   .attr("height", "200%");
-
-  // filterShadow
-  //   .append("feDropShadow")
-  //   .attr("dx", "40")
-  //   .attr("dy", "40")
-  //   .attr("stdDeviation", "35")
-  //   .attr("flood-color", "cyan")
-  //   .attr("flood-opacity", "1");
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -219,12 +176,20 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
 
   node
     .on("mouseover", (d) => {
-      addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY);
+      addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY, "node");
     })
     .on("mouseout", () => {
       removeTooltip();
     });
 
+  link
+    .on("mouseover", (d) => {
+      console.log("link d", d);
+      // addTooltip(nodeHoverTooltip, d, d3.event.pageX, d3.event.pageY, "link");
+    })
+    .on("mouseout", () => {
+      removeTooltip();
+    });
   simulation.nodes(nodes).on("tick", ticked);
   simulation.force("link").links(links);
 

@@ -55,5 +55,40 @@ export default function ForceGraph({ links, nodes }) {
     runForceGraph(links, nodes, nodeHoverTooltip);
   }, [links]);
 
-  return <svg width="960" height="600"></svg>;
+  return (
+    <svg width="960" height="600">
+      <defs>
+        <marker
+          id="arrowhead"
+          viewBox="-0 -5 10 10"
+          refX="13"
+          refY="0"
+          orient="auto"
+          markerWidth="13"
+          markerHeight="13"
+          xoverflow="visible"
+        >
+          <path
+            d="M 0,-5 L 10 ,0 L 0,5"
+            fill="darkturquoise"
+            stroke="none"
+          ></path>
+        </marker>
+        <linearGradient id="svgGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+          <stop
+            class="start"
+            offset="50%"
+            stop-color="white"
+            stop-opacity="1"
+          ></stop>
+          <stop
+            class="end"
+            offset="100%"
+            stop-color="#1FFFBB"
+            stop-opacity="1"
+          ></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+  );
 }
