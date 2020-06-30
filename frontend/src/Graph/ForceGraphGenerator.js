@@ -99,14 +99,21 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
     .attr("stop-color", "#1FFFBB")
     .attr("stop-opacity", 1);
 
-  var dropshadow = defs.append("filter").attr("id", "shadowf");
+  // var filterShadow = defs
+  //   .append("filter")
+  //   .attr("id", "shadow")
+  //   .attr("x", "0")
+  //   .attr("y", "0")
+  //   .attr("width", "200%")
+  //   .attr("height", "200%");
 
-  dropshadow
-    .append("feDropShadow")
-    .attr("dx", "0")
-    .attr("dy", "0")
-    .attr("stdDeviation", "0.5")
-    .attr("flood-color", "cyan");
+  // filterShadow
+  //   .append("feDropShadow")
+  //   .attr("dx", "40")
+  //   .attr("dy", "40")
+  //   .attr("stdDeviation", "35")
+  //   .attr("flood-color", "cyan")
+  //   .attr("flood-opacity", "1");
 
   const simulation = d3
     .forceSimulation(nodes)
@@ -193,7 +200,7 @@ export function runForceGraph(links, nodes, nodeHoverTooltip) {
     .attr("class", "shadow")
     .attr("r", 20)
     .style("fill", "darkturquoise")
-    .style("filter", "url(#shadowf)");
+    .style("filter", "url(#shadow)");
   // .style("fill", function (d, i) {
   //   return colors(i);
   // });
