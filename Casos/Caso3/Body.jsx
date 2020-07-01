@@ -9,7 +9,7 @@ function Body(props){
         </div>
     );
 };
-Body.propTypes = {
+LandingContainer.propTypes = {
   creador: PropTypes.string,
   fecha: PropTypes.string,
   tema: PropTypes.string

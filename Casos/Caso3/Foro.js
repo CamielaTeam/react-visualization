@@ -13,6 +13,6 @@ function Foro(props){
         </div>
     );
 };
-Foro.propTypes = {
+App.propTypes = {
   appProps: PropTypes.bool
 };

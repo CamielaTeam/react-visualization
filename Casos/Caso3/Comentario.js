@@ -6,7 +6,7 @@ function Comentario(props){
         </div>
     );
 };
-Comentario.propTypes = {
+LandingView.propTypes = {
   nombreForo: PropTypes.string,
   tema: PropTypes.string
 };

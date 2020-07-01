@@ -5,7 +5,7 @@ function ListaComentarios(props){
         <Comentario nombreForo={nombreForo} tema={tema}/>
     );
 };
-ListaComentarios.propTypes = {
+CustomButton.propTypes = {
   nombreForo: PropTypes.string,
   tema: PropTypes.string
 };
