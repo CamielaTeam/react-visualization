@@ -29,6 +29,10 @@ Luego se debe ejecutar el cliente reactJS, para esto se debe ejecutar en otra co
 
 `npm start`
 
-Luego, en la url http://localhost:3000/ debe encontrarse la interfaz visual ya funcionando y a la espera de ser ingresados los archivos.
+
+
+Luego, en la carpeta `backend` debe crearse una carpeta con nombre `archivos_entrada`.
+
+En la url http://localhost:3000/ debe encontrarse la interfaz visual ya funcionando y a la espera de ser ingresados los archivos.
 
 Para que sean procesados los archivos debe hacerse click en el botón "Choose files", seleccionar los archivos que contienen los componentes de React y hacer click en "Upload". Es importante anotar que debe existir un único componente por archivo.
