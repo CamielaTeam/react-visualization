@@ -36,3 +36,5 @@ Luego, en la carpeta `backend` debe crearse una carpeta con nombre `archivos_ent
 En la url http://localhost:3000/ debe encontrarse la interfaz visual ya funcionando y a la espera de ser ingresados los archivos.
 
 Para que sean procesados los archivos debe hacerse click en el botón "Choose files", seleccionar los archivos que contienen los componentes de React y hacer click en "Upload". Es importante anotar que debe existir un único componente por archivo.
+
+Los casos de prueba se encuentran la carpeta `Casos` que se encuentra en la raíz del proyecto.
