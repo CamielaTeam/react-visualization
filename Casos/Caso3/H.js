@@ -5,7 +5,7 @@ function H(props){
         </div>
     );
 };
-D.propTypes = {
+H.propTypes = {
   a: PropTypes.bool,
   b: PropTypes.bool,
   c: PropTypes.bool,
